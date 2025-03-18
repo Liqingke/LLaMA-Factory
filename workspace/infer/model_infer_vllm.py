@@ -28,8 +28,8 @@ def data_load(input_file, tokenizer):
     return batch_messages
 
 def main():
-    input_file = "../data/sharegpt_eval_post_cot.json"
-    output_file = "./data/result_sharegpt_eval_post_cot_vllm.json"
+    input_file = "./data/zeus_benchmark.json"
+    output_file = "./data/result_benchmark_vllm_test.json"
     batch_size = 16
     model_name = "/root/paddlejob/workspace/env_run/code/baidu/fengkong/LLaMA-Factory/workspace/sft/ds-1.5b-sft-vulgar-post-cot/checkpoint-400"
 
@@ -57,16 +57,21 @@ def main():
     )
 
     # 加载数据
-    all_data = data_load(input_file, tokenizer)
+    all_data = data_load(input_file, tokenizer)[:16]
     prompts = [item["prompt"] for item in all_data]
     originals = [item["original"] for item in all_data]
 
-    # 批量推理
+    print("all_data:", all_data)
+    print("prompts:", prompts)
 
+
+    # 批量推理
     st = time.time()
     results = []
     for i in tqdm(range(0, len(prompts), batch_size), desc="Processing"):
         batch_prompts = prompts[i : i+batch_size]
+        print(batch_prompts)
+
         outputs = llm.generate(
             batch_prompts,
             sampling_params,

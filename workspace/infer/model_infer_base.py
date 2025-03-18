@@ -29,13 +29,13 @@ def model_infer_batch(model, tokenizer, batch_messages):
     generated_ids = model.generate(
         **model_inputs,
         max_new_tokens=512,
-        pad_token_id=tokenizer.eos_token_id
+        pad_token_id=tokenizer.eos_token_id  # 添加结束符号作为解码终止标志
     )
 
     # 解码结果
     results = []
     for i, seq in enumerate(generated_ids):
-        output_length = input_lengths[i]
+        output_length = max(input_lengths)
         response = tokenizer.decode(
             seq[output_length:], 
             skip_special_tokens=True
@@ -61,10 +61,9 @@ def data_load(input_file):
                 break
     return batch_messages
 
-
 def main():
     input_file = "../data/sharegpt_eval_post_cot.json"     # 每行一个对话样本的JSON文件
-    output_file = "./data/result_sharegpt_eval_post_cot_test.json"   # 输出结果文件
+    output_file = "./data/result_sharegpt_eval_post_cot_test_v2.json"   # 输出结果文件
     batch_size = 16                # 批处理大小
     model_name = "/root/paddlejob/workspace/env_run/code/baidu/fengkong/LLaMA-Factory/workspace/sft/ds-1.5b-sft-vulgar-post-cot/checkpoint-400"
 
@@ -75,12 +74,12 @@ def main():
     )
     tokenizer = AutoTokenizer.from_pretrained(
         model_name,
-        padding_side="left"
+        padding_side="left"  # 左侧padding
     )
 
     # all_messages = data_load(input_file)
     # debug
-    all_messages = data_load(input_file)[:32]
+    all_messages = data_load(input_file)[:16]
     print("eos_token_id: ", tokenizer.eos_token_id)
     print(all_messages)
 

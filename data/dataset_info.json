@@ -678,5 +678,21 @@
       "prompt": "content"
     },
     "folder": "python"
+  },
+  "news_train": {
+    "file_name": "news_train.json",
+    "formatting": "sharegpt"
+  },
+  "news_eval": {
+    "file_name": "news_eval.json",
+    "formatting": "sharegpt"
+  },
+  "sharegpt_train_post_cot": {
+    "file_name": "sharegpt_train_post_cot.json",
+    "formatting": "sharegpt"
+  },
+  "sharegpt_eval_post_cot": {
+    "file_name": "sharegpt_eval_post_cot.json",
+    "formatting": "sharegpt"
   }
 }
