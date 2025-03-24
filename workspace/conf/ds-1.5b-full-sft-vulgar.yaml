@@ -1,5 +1,5 @@
 ### model
-model_name_or_path: /root/paddlejob/workspace/env_run/code/baidu/fengkong/nlp-model/llm/model/DeepSeek-R1-Distill-Qwen-1.5B
+model_name_or_path: ./workspace/DeepSeek-R1-Distill-Qwen-1.5B-base
 
 ### method
 stage: sft

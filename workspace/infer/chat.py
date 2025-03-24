@@ -1,6 +1,6 @@
 from transformers import AutoModelForCausalLM, AutoTokenizer
 
-model_name = "/root/paddlejob/workspace/env_run/code/baidu/fengkong/LLaMA-Factory/workspace/sft/ds-1.5b-sft-vulgar-post-cot/checkpoint-400"
+model_name = "./workspace/sft/ds-1.5b-sft-vulgar-post-cot/checkpoint-120"
 
 model = AutoModelForCausalLM.from_pretrained(
     model_name,

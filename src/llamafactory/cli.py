@@ -88,14 +88,18 @@ def main():
     elif command == Command.TRAIN:
         force_torchrun = is_env_enabled("FORCE_TORCHRUN")
         if force_torchrun or (get_device_count() > 1 and not use_ray()):
-            nnodes = os.getenv("NNODES", "1")
-            node_rank = os.getenv("NODE_RANK", "0")
-            nproc_per_node = os.getenv("NPROC_PER_NODE", str(get_device_count()))
-            master_addr = os.getenv("MASTER_ADDR", "127.0.0.1")
-            master_port = os.getenv("MASTER_PORT", str(random.randint(20001, 29999)))
+            nnodes = os.getenv("NNODES", "1")  # 节点数
+            node_rank = os.getenv("NODE_RANK", "0")  # 节点编号
+            nproc_per_node = os.getenv("NPROC_PER_NODE", str(get_device_count()))  # 每个节点进程数
+            master_addr = os.getenv("MASTER_ADDR", "127.0.0.1")  # 主机地址
+            master_port = os.getenv("MASTER_PORT", str(random.randint(20001, 29999)))  # 主机端口
             logger.info_rank0(f"Initializing {nproc_per_node} distributed tasks at: {master_addr}:{master_port}")
             if int(nnodes) > 1:
                 print(f"Multi-node training enabled: num nodes: {nnodes}, node rank: {node_rank}")
+
+            # debug
+            print(f"torchrun --nnodes {nnodes} --node_rank {node_rank} --nproc_per_node {nproc_per_node} "
+                  f"--master_addr {master_addr} --master_port {master_port} {launcher.__file__} {' '.join(sys.argv[1:])}")
 
             process = subprocess.run(
                 (
